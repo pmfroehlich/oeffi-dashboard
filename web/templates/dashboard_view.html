@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard – View</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 20px; max-width: 980px; margin: 0 auto; }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    button { padding: 10px 14px; font-size: 16px; cursor: pointer; }
+    .muted { color: #666; font-size: 14px; }
+    .card { border:1px solid #eee; border-radius: 14px; padding: 12px; margin: 12px 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { text-align: left; padding: 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+    a.button { display:inline-block; padding:10px 14px; border:1px solid #ddd; border-radius:10px; text-decoration:none; color:#111; background:#fff; }
+    a.button:hover { background:#f6f6f6; }
+    h1 { margin: 0; }
+  </style>
+</head>
+<body>
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+    <h1 id="pageTitle">Dashboard – View</h1>
+    <div class="row">
+      <button id="refreshBtn">Aktualisieren</button>
+      <span class="muted" id="refreshStatus"></span>
+      <a class="button" href="/dashboard/{{ dashboard_id }}/edit">✎ Konfigurieren</a>
+      <a class="button" href="/">← Zur Übersicht</a>
+    </div>
+  </div>
+
+  <script>
+    window.DASHBOARD_ID = "{{ dashboard_id }}";
+  </script>
+
+  <div id="departuresContainer"></div>
+
+  <script src="{{ url_for('static', filename='view.js') }}"></script>
+
+{% include "footer.html" %}
+</body>
+</html>

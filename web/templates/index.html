@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboards</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 20px; max-width: 900px; margin: 0 auto; }
+    .row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .muted { color:#666; font-size: 14px; }
+    a.button, button { display:inline-block; padding:10px 14px; border:1px solid #ddd; border-radius:10px; text-decoration:none; color:#111; background:#fff; }
+    a.button:hover { background:#f6f6f6; }
+    .card { border:1px solid #eee; border-radius:14px; padding:14px; margin:10px 0; }
+    .title { font-weight:600; }
+    .meta { color:#666; font-size: 13px; margin-top:4px; }
+    .actions { display:flex; gap:10px; }
+    .delete-btn { cursor:pointer; }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <div>
+      <h1 style="margin:0;">Dashboards</h1>
+      <div class="muted">Übersicht aller gespeicherten Dashboards</div>
+    </div>
+    <a class="button" href="/access-link">📱 Zugang-Link fürs Handy</a>
+    <a class="button" href="/dashboard/new">Dashboard hinzufügen</a>
+  </div>
+
+  <div style="margin-top:16px;">
+    {% if dashboards|length == 0 %}
+      <div class="card">
+        <div class="title">Noch keine Dashboards</div>
+        <div class="meta">Klicke rechts auf „Dashboard hinzufügen“.</div>
+      </div>
+    {% endif %}
+
+    {% for d in dashboards %}
+      <div class="card" data-id="{{ d.id }}">
+        <div class="row">
+          <div>
+            <div class="title">{{ d.name }}</div>
+            <div class="meta">· Zuletzt angepasst: {{ d.updated_at }}</div>
+          </div>
+          <div class="actions">
+            <a class="button" href="/dashboard/{{ d.id }}/edit">✎ Konfigurieren</a>
+            <a class="button" href="/dashboard/{{ d.id }}/view">▶ Öffnen</a>
+
+            <!-- ✅ FIX 1: d.id statt dashboard.id -->
+            <a class="button delete-btn" data-id="{{ d.id }}">🗑 Löschen</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    document.addEventListener("click", async (e) => {
+      const btn = e.target.closest(".delete-btn");
+      if (!btn) return;
+
+      const dashboardId = btn.dataset.id;
+      if (!dashboardId) return;
+
+      const ok = confirm("Dashboard wirklich löschen?");
+      if (!ok) return;
+
+      try {
+        const resp = await fetch(`/api/dashboards/${dashboardId}`, { method: "DELETE" });
+
+        if (!resp.ok) {
+          alert("Löschen fehlgeschlagen");
+          return;
+        }
+
+        // ✅ FIX 2: .card entfernen (oder das Eltern-Element mit data-id)
+        btn.closest(".card")?.remove();
+      } catch (err) {
+        console.error(err);
+        alert("Netzwerkfehler beim Löschen");
+      }
+    });
+  </script>
+
+{% include "footer.html" %}
+</body>
+</html>

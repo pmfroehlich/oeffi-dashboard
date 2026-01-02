@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MVG Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+  <div class="topbar">
+  <div class="topbar-left">
+    <div class="muted">Dashboard Name</div>
+    <input id="dashboardName" placeholder="Name" />
+  </div>
+
+  <div class="topbar-right">
+    <div class="save-wrap">
+      <span id="status" class="save-status" aria-live="polite"></span>
+      <button id="saveBtn" class="primary">Änderungen Speichern</button>
+    </div>
+
+    <a href="/" class="button" id="backLink">← Zur Übersicht</a>
+  </div>
+</div>
+
+
+  <script>
+    window.DASHBOARD_ID = "{{ dashboard_id }}";
+  </script>
+
+  <h1>Dashboard</h1>
+  <p class="muted">Hier eine Station auswählen & dem Dashboard hinzufügen.</p>
+
+  <div class="row">
+    <input id="stationInput" placeholder="z.B. Marienplatz" autocomplete="off" />
+    <button id="addBtn" disabled>Hinzufügen</button>
+  </div>
+
+  <div id="results" class="dropdown" style="display:none;"></div>
+
+  <div class="panel">
+    <h2>Ausgewählte Stationen <span id="count" class="pill">0</span></h2>
+    <div class="row" style="margin: 8px 0;">
+      <button id="clearBtn">Dashboard Zurücksetzen</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Anzahl Abfahrten</th>
+        </tr>
+      </thead>
+      <tbody id="stationsTable"></tbody>
+    </table>
+  </div>
+
+
+
+  <div class="panel hidden" id="columnsPanel">
+  <h2>Spalten</h2>
+  <div class="muted columns-hint">
+    Du kannst Spalten in der Vorschau-Tabelle am Spaltenname verschieben. Hier kannst du Spalten ein-/ausblenden.
+  </div>
+
+  <ul id="columnsList" class="columns-list"></ul>
+  </div>
+
+
+
+    <h2>Abfahrten</h2>
+    <div class="row" style="margin: 8px 0;">
+      <button id="refreshBtn">Vorschau Dashboard</button>
+      <span class="muted" id="refreshStatus"></span>
+    </div>
+
+    <div id="departuresContainer"></div>
+
+  <div class="hint-box">
+  <strong>Wichtig – Hinweis:</strong><br>
+  Die „Anzahl Abfahrten“ bezieht sich auf <strong>alle Abfahrten</strong> an der Haltestelle,
+  nicht nur auf die gefilterten.
+  Wenn hier nur wenige oder keine Abfahrten erscheinen, erhöhe den Wert
+  (z.&nbsp;B. von 20 auf 100).
+  </div>
+
+  </div>
+
+  <!-- ✅ Script genau einmal, ganz am Ende -->
+  <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+
+{% include "footer.html" %}
+</body>
+</html>
