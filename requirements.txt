@@ -16,7 +16,7 @@ MarkupSafe==2.1.5
 multidict==6.1.0
 mvg==1.6.0
 mvg-api==1.2.7
-numpy==1.23.5
+numpy>=1.26.0
 orderedmultidict==1.0.2
 pandas==2.0.3
 propcache==0.2.0

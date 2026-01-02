@@ -14,6 +14,10 @@ A lightweight Flask-based web app to create and view personalized public transpo
 - Vanilla JS / HTML / CSS
 - Gunicorn + Nginx (production)
 
+## Requirements
+
+- Python 3.12+
+
 ## Setup (Local)
 ```bash
 python -m venv .venv
